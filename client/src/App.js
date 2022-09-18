@@ -1,16 +1,19 @@
-import Header from './components/Header';
-import Users from './components/Users';
-import AddUser from './components/AddUser';
+import Main from './components/Main';
+import Navigation from './components/Navigation';
+import AddProduct from './components/AddProduct';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import './App.css';
+import './CSS/forms.css';
+import './CSS/main.css';
+import './CSS/product.css';
 
 function App() {
   return (
     <div className='App'>
-      <Header />
+      <Navigation />
       <Switch>
-        <Route exact path='/' component={() => <AddUser />} />
-        <Route path='/Users' component={() => <Users />} />
+        <Route exact path='/' component={() => <Main />} />
+        <Route path='/add-product' component={() => <AddProduct />} />
       </Switch>
     </div>
   );
