@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const [data, setData] = useState();
   useEffect(() => {
     axios
       .get('http://localhost:5000/users')
@@ -11,20 +10,25 @@ const Users = () => {
       })
       .then(res => {
         setUsers(res);
+      })
+      .catch(err => {
+        console.log(err);
       });
   });
 
-  console.log('user', users);
-  const user = users.map(user => {
-    return <li>{user}</li>;
-  });
-  return (
-    <div>
-      <h1>USERS</h1>
-      <h1>{data}</h1>
-      <ul>{user}</ul>
-    </div>
-  );
+  if (users.length > 0) {
+    const user = users.map((user, id) => {
+      return <li key={id}>{user}</li>;
+    });
+    return (
+      <div>
+        <h5>USERS</h5>
+        <p>{user}</p>
+      </div>
+    );
+  } else {
+    return <h1>No User Found!</h1>;
+  }
 };
 
 export default Users;

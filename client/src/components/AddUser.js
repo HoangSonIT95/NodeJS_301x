@@ -5,9 +5,10 @@ const AddUser = () => {
   const onPost = event => {
     event.preventDefault();
     const newUser = { user: event.target.addUser.value };
-
     axios.post('http://localhost:5000/', newUser).then(res => {
-      console.log(res.data);
+      alert('Add success!');
+      window.location.href = 'http://localhost:3000/users';
+      return res.data;
     });
   };
 
@@ -19,7 +20,7 @@ const AddUser = () => {
           placeholder='Add User'
           name='addUser'
         />
-        <button type='submit'> Add User</button>
+        <button type='submit'>Add User</button>
       </form>
     </div>
   );
