@@ -5,18 +5,46 @@ import { useParams } from 'react-router-dom';
 const EditProduct = () => {
   const params = useParams();
   const [product, setProduct] = useState();
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/admin/edit-product/${params.productId}`)
       .then(res => setProduct(res.data));
   }, [params.productId]);
+
+  const onEditProduct = e => {
+    e.preventDefault();
+    const target = e.target;
+    const updateProduct = {
+      id: params.productId,
+      title: target.title.value,
+      imageUrl: target.imageUrl.value,
+      price: target.price.value,
+      description: target.description.value,
+    };
+    axios
+      .post(
+        `http://localhost:5000/admin/edit-product/${params.productId}`,
+        updateProduct
+      )
+      .then(res => {
+        alert('Updated Product Success!');
+        window.location.href = '/admin/products';
+      });
+  };
+
   if (product) {
     return (
       <main>
-        <form className='product-form'>
+        <form className='product-form' onSubmit={onEditProduct}>
           <div className='form-control'>
             <label for='title'>Title</label>
-            <input type='text' name='title' id='title' value={product.title} />
+            <input
+              type='text'
+              name='title'
+              id='title'
+              defaultValue={product.title}
+            />
           </div>
           <div className='form-control'>
             <label for='imageUrl'>Image URL</label>
@@ -24,7 +52,7 @@ const EditProduct = () => {
               type='text'
               name='imageUrl'
               id='imageUrl'
-              value={product.imageUrl}
+              defaultValue={product.imageUrl}
             />
           </div>
           <div className='form-control'>
@@ -34,7 +62,7 @@ const EditProduct = () => {
               name='price'
               id='price'
               step='0.01'
-              value={product.price}
+              defaultValue={product.price}
             />
           </div>
           <div className='form-control'>
@@ -43,7 +71,7 @@ const EditProduct = () => {
               name='description'
               id='description'
               rows='5'
-              value={product.description}
+              defaultValue={product.description}
             ></textarea>
           </div>
           <input type='hidden' name='productId' />

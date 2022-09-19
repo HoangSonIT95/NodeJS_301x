@@ -10,8 +10,8 @@ class AdminController {
   getAddProduct = (req, res, next) => {};
 
   postAddProduct = (req, res, next) => {
-    console.log(req.body);
     const product = new Product(
+      null,
       req.body.title,
       req.body.imgUrl,
       req.body.description,
@@ -26,6 +26,18 @@ class AdminController {
     Product.findById(productId, product => {
       res.send(product);
     });
+  };
+
+  postEditProduct = (req, res, next) => {
+    const updatedProduct = new Product(
+      req.body.id,
+      req.body.title,
+      req.body.imageUrl,
+      req.body.price,
+      req.body.description
+    );
+    updatedProduct.save();
+    res.redirect('/admin/products');
   };
 }
 
