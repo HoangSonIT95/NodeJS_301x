@@ -29,6 +29,14 @@ class ShopController {
     });
     res.json(req.body);
   };
+
+  postCartDeleteProduct = (req, res, next) => {
+    const productId = req.body.productId;
+    Product.findById(productId, product => {
+      Cart.deleteProduct(productId, product.price);
+      res.redirect('/cart');
+    });
+  };
 }
 
 module.exports = new ShopController();
