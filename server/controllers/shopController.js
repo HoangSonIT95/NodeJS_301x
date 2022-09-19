@@ -6,7 +6,7 @@ class ShopController {
     Cart.getCart(cart => {
       Product.fetchAll(products => {
         const cartProducts = [];
-        for (product of products) {
+        products.forEach(product => {
           const cartProductData = cart.products.find(
             prod => prod.id === product.id
           );
@@ -16,7 +16,7 @@ class ShopController {
               qty: cartProductData.qty,
             });
           }
-        }
+        });
         res.send(cartProducts);
       });
     });
