@@ -17,11 +17,7 @@ class ShopController {
             });
           }
         }
-        res.render('shop/cart', {
-          path: '/cart',
-          pageTitle: 'Your Cart',
-          products: cartProducts,
-        });
+        res.send(cartProducts);
       });
     });
   };
