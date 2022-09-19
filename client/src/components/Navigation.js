@@ -1,30 +1,33 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Navigation extends Component {
   render() {
     return (
-      <header class='main-header'>
-        <nav class='main-header__nav'>
-          <ul class='main-header__item-list'>
-            <li class='main-header__item'>
-              <a href='/'>Shop</a>
-            </li>
-            <li class='main-header__item'>
-              <a href='/products'>Products</a>
-            </li>
-            <li class='main-header__item'>
-              <a href='/cart'>Cart</a>
-            </li>
-            <li class='main-header__item'>
-              <a href='/orders'>Orders</a>
-            </li>
-            <li class='main-header__item'>
-              <a href='/add-product'>Add Product</a>
-            </li>
-            <li class='main-header__item'>
-              <a href='/admin/products'>Admin Products</a>
-            </li>
-          </ul>
+      <header className='main-header'>
+        <nav className='main-header__nav'>
+          <div className='main-header__item-list'>
+            <div className='main-header__item'>
+              <NavLink to='/' end>
+                Shop
+              </NavLink>
+            </div>
+            <div className='main-header__item'>
+              <NavLink to='/products'>Products</NavLink>
+            </div>
+            <div className='main-header__item'>
+              <NavLink to='/cart'>Cart</NavLink>
+            </div>
+            <div className='main-header__item'>
+              <NavLink to='/orders'>Orders</NavLink>
+            </div>
+            <div className='main-header__item'>
+              <NavLink to='/admin/add-product'>Add Product</NavLink>
+            </div>
+            <div className='main-header__item'>
+              <NavLink to='/admin/products'>Admin Products</NavLink>
+            </div>
+          </div>
         </nav>
       </header>
     );

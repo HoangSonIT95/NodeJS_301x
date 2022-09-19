@@ -1,6 +1,6 @@
 const Product = require('../models/productsModel');
 
-class ProductController {
+class AdminController {
   getProducts = (req, res, next) => {
     Product.fetchAll(products => {
       res.send(products);
@@ -20,6 +20,13 @@ class ProductController {
     product.save();
     res.redirect('/');
   };
+
+  getEditProduct = (req, res, next) => {
+    const productId = req.params.productId;
+    Product.findById(productId, product => {
+      res.send(product);
+    });
+  };
 }
 
-module.exports = new ProductController();
+module.exports = new AdminController();
