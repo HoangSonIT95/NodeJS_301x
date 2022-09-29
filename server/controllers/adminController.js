@@ -12,15 +12,18 @@ class AdminController {
   getAddProduct = (req, res, next) => {};
 
   postAddProduct = (req, res, next) => {
-    const product = new Product(
-      null,
-      req.body.title,
-      req.body.imgUrl,
-      req.body.description,
-      req.body.price
-    );
-    product.save();
-    res.redirect('/');
+    const title = req.body.title;
+    const imageUrl = req.body.imageUrl;
+    const price = req.body.price;
+    const description = req.body.description;
+    Product.create({
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description,
+    })
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
   };
 
   getEditProduct = (req, res, next) => {

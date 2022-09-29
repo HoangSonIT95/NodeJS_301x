@@ -4,7 +4,7 @@ const app = express();
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const db = require('./utils/db');
+const sequelize = require('./utils/db');
 
 app.use(express.json());
 app.use(cors());
@@ -13,5 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+
+sequelize
+  .sync()
+  .then(result => {
+    console.log(result);
+  })
+  .catch(err => console.log(err));
 
 app.listen(5000);
