@@ -12,7 +12,7 @@ class AddProduct extends Component {
     const target = event.target;
     const newProduct = {
       title: target.title.value,
-      imgUrl: target.imageUrl.value,
+      imageUrl: target.imageUrl.value,
       description: target.description.value,
       price: target.price.value,
     };
@@ -20,8 +20,7 @@ class AddProduct extends Component {
       .post('http://localhost:5000/admin/add-product', newProduct)
       .then(res => {
         alert('Add success!');
-        window.location.href = 'http://localhost:3000/';
-        console.log(res.data);
+        window.location.href = 'http://localhost:3000/admin/products';
       });
   }
 

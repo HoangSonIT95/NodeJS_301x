@@ -18,6 +18,7 @@ class AdminController {
   };
 
   postAddProduct = (req, res, next) => {
+    console.log(req.body);
     const title = req.body.title;
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
@@ -29,8 +30,7 @@ class AdminController {
       description: description,
     })
       .then(result => {
-        // console.log(result);
-        console.log('Created Product');
+        res.send(result);
       })
       .catch(err => {
         console.log(err);
@@ -72,7 +72,12 @@ class AdminController {
 
   postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.deleteById(prodId);
+    Product.findByPk(prodId)
+      .then(product => {
+        return product.destroy();
+      })
+      .then(result => res.send(result))
+      .catch(err => console.log(err));
     res.redirect('/admin/products');
   };
 }

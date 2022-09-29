@@ -22,16 +22,15 @@ class AdminProducts extends Component {
       });
   }
 
-  /* onEdit(e) {
-    let productId = e.target.productId.value;
-    //alert('productId: ' + e.target.productId.value);
-    window.location.href = `http://localhost:3000/admin/edit-product/${productId}`;
-    e.preventDefault();
-  } */
   onDelete(e) {
-    alert('productId: ' + e.target.productId.value);
+    const prodId = e.target.productId.value;
     e.preventDefault();
+    axios
+      .post('http://localhost:5000/admin/delete-product', { prodId })
+      .then(res => (window.location.href = '/admin/products'))
+      .catch(err => console.log(err));
   }
+
   render() {
     const productsList = this.state.products.map(product => {
       return (
