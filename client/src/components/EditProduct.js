@@ -16,7 +16,6 @@ const EditProduct = () => {
     e.preventDefault();
     const target = e.target;
     const updateProduct = {
-      id: params.productId,
       title: target.title.value,
       imageUrl: target.imageUrl.value,
       price: target.price.value,
