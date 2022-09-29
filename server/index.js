@@ -4,6 +4,7 @@ const app = express();
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const db = require('./utils/db');
 
 app.use(express.json());
 app.use(cors());

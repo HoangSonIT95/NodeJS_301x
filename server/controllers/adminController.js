@@ -2,9 +2,11 @@ const Product = require('../models/productsModel');
 
 class AdminController {
   getProducts = (req, res, next) => {
-    Product.fetchAll(products => {
-      res.send(products);
-    });
+    Product.fetchAll()
+      .then(([rows, fieldData]) => {
+        res.send(rows);
+      })
+      .catch(err => console.log(err));
   };
 
   getAddProduct = (req, res, next) => {};
