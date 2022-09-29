@@ -6,6 +6,7 @@ import AddProduct from './components/AddProduct';
 import AdminProducts from './components/AdminProducts';
 import EditProduct from './components/EditProduct';
 import Cart from './components/Cart';
+import Detail from "./components/ProductDetail";
 
 import './App.css';
 import './CSS/main.css';
@@ -25,6 +26,7 @@ function App() {
           path='/admin/edit-product/:productId'
           element={<EditProduct />}
         />
+        <Route exact path="/detail/:productId" element={<Detail />} />
       </Routes>
     </div>
   );

@@ -17,8 +17,8 @@ app.use(shopRoutes);
 sequelize
   .sync()
   .then(result => {
-    console.log(result);
+    app.listen(5000);
   })
-  .catch(err => console.log(err));
-
-app.listen(5000);
+  .catch(err => {
+    console.log(err);
+  });

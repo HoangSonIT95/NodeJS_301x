@@ -13,6 +13,7 @@ class Shop extends Component {
     axios
       .get('http://localhost:5000/')
       .then(res => {
+        console.log(res.data);
         const products = res.data;
         this.setState({ products });
       })
@@ -47,7 +48,7 @@ class Shop extends Component {
             <p className='product__description'>{product.description}</p>
           </div>
           <div className='card__actions'>
-            <a href='#' className='btn'>
+            <a href={`/detail/${product.id}`} className='btn'>
               Details
             </a>
             <form className='form__btn' type='submit' onSubmit={this.addToCart}>
