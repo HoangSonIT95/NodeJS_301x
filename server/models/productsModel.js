@@ -7,16 +7,18 @@ class Product {
     this.price = price;
     this.imageUrl = imageUrl;
     this.description = description;
-    this._id = id;
+    this._id = new mongodb.ObjectId(id);
   }
   save() {
     const db = getDb();
-    let dbOp
-    if(this._id){
+    let dbOp;
+    if (this._id) {
       // update the product
-      dbOp = db.collection('products').updateOne({_id: new mongodb.ObjectId(this._id)}, {$set: this})
-    }else{
-      dbOp =db.collection('products').insertOne(this)
+      dbOp = db
+        .collection('products')
+        .updateOne({ _id: this._id }, { $set: this });
+    } else {
+      dbOp = db.collection('products').insertOne(this);
     }
     return dbOp
       .then(result => console.log('resultlllllllllllllll', result))
@@ -47,8 +49,6 @@ class Product {
       })
       .catch(err => console.log(err));
   }
-
-
 }
 
 module.exports = Product;

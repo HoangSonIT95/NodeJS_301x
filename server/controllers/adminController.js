@@ -1,5 +1,4 @@
 const Product = require('../models/productsModel');
-
 class AdminController {
   getProducts = (req, res, next) => {
     Product.fetchAll()
@@ -45,15 +44,16 @@ class AdminController {
     const updatedPrice = req.body.price;
     const updatedImageUrl = req.body.imageUrl;
     const updatedDesc = req.body.description;
-    Product.findByPk(prodId)
-      .then(product => {
-        console.log(product);
-        product.title = updatedTitle;
-        product.price = updatedPrice;
-        product.imageUrl = updatedImageUrl;
-        product.description = updatedDesc;
-        return product.save();
-      })
+
+    const product = new Product(
+      updatedTitle,
+      updatedPrice,
+      updatedImageUrl,
+      updatedDesc,
+      prodId
+    );
+    product
+      .save()
       .then(result => {
         res.send(result);
       })
