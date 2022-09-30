@@ -2,8 +2,7 @@ const Product = require('../models/productsModel');
 
 class AdminController {
   getProducts = (req, res, next) => {
-    req.user
-      .getProducts()
+    Product.fetchAll()
       .then(products => {
         res.send(products);
       })
@@ -17,13 +16,9 @@ class AdminController {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    req.user
-      .createProduct({
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        description: description,
-      })
+    const product = new Product(title, price, imageUrl, description);
+    product
+      .save()
       .then(result => {
         res.send(result);
       })
@@ -34,10 +29,8 @@ class AdminController {
 
   getEditProduct = (req, res, next) => {
     const prodId = req.params.productId;
-    req.user
-      .getProducts({ where: { id: prodId } })
-      .then(products => {
-        const product = products[0];
+    Product.findById(prodId)
+      .then(product => {
         if (!product) {
           return res.redirect('/');
         }
@@ -67,15 +60,15 @@ class AdminController {
       .catch(err => console.log(err));
   };
 
-  postDeleteProduct = (req, res, next) => {
-    const prodId = req.body.prodId;
-    Product.findByPk(prodId)
-      .then(product => {
-        return product.destroy();
-      })
-      .then(result => res.send(result))
-      .catch(err => console.log(err));
-    res.redirect('/admin/products');
-  };
+  // postDeleteProduct = (req, res, next) => {
+  //   const prodId = req.body.prodId;
+  //   Product.findByPk(prodId)
+  //     .then(product => {
+  //       return product.destroy();
+  //     })
+  //     .then(result => res.send(result))
+  //     .catch(err => console.log(err));
+  //   res.redirect('/admin/products');
+  // };
 }
 module.exports = new AdminController();

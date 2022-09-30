@@ -50,7 +50,7 @@ class AdminProducts extends Component {
               <input type='hidden' name='productId' value={product.id} />
               <button className='btn'>Edit</button>
             </form> */}
-            <Link to={'/admin/edit-product/' + product.id} className='btn'>
+            <Link to={'/admin/edit-product/' + product._id} className='btn'>
               Edit
             </Link>
             <form className='form__btn' onSubmit={this.onDelete}>
@@ -61,7 +61,7 @@ class AdminProducts extends Component {
                 type='hidden'
                 name='productId'
                 id='productId'
-                value={product.id}
+                value={product._id}
               />
             </form>
           </div>

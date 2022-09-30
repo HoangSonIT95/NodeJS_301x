@@ -8,6 +8,7 @@ import EditProduct from './components/EditProduct';
 import Cart from './components/Cart';
 import Detail from './components/ProductDetail';
 import Orders from './components/Orders';
+import Products from './components/Products';
 
 import './App.css';
 import './CSS/main.css';
@@ -20,6 +21,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path='/' element={<Shop />} />
+        <Route path='/products' element={<Products />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/admin/add-product' element={<AddProduct />} />
         <Route path='/admin/products' element={<AdminProducts />} />

@@ -43,11 +43,11 @@ class Shop extends Component {
             <img src={product.imageUrl} alt={product.title} />
           </div>
           <div className='card__content'>
-            <h2 className='product__price'>{product.price}$</h2>
+            <h2 className='product__price'>{product.price} $</h2>
             <p className='product__description'>{product.description}</p>
           </div>
           <div className='card__actions'>
-            <a href={`/detail/${product.id}`} className='btn'>
+            <a href={`/detail/${product._id}`} className='btn'>
               Details
             </a>
             <form className='form__btn' type='submit' onSubmit={this.addToCart}>
@@ -58,7 +58,7 @@ class Shop extends Component {
                 type='hidden'
                 name='productId'
                 id='productId'
-                value={product.id}
+                value={product._id}
               />
             </form>
           </div>

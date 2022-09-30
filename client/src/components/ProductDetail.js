@@ -30,6 +30,8 @@ function Detail() {
 
   return (
     <main className='center'>
+      <h1>{product.title}</h1>
+      <hr />
       <div>
         <img
           src={product.imageUrl}
