@@ -13,7 +13,6 @@ class Shop extends Component {
     axios
       .get('http://localhost:5000/')
       .then(res => {
-        console.log(res.data);
         const products = res.data;
         this.setState({ products });
       })
@@ -28,7 +27,7 @@ class Shop extends Component {
       .post('http://localhost:5000/cart', { productId: productId })
       .then(res => {
         alert('Add to cart successfully!');
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = '/';
         return res.data;
       })
       .catch(err => console.log(err));

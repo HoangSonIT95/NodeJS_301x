@@ -20,7 +20,7 @@ class AddProduct extends Component {
       .post('http://localhost:5000/admin/add-product', newProduct)
       .then(res => {
         alert('Add success!');
-        window.location.href = 'http://localhost:3000/admin/products';
+        window.location.href = '/admin/products';
       });
   }
 
