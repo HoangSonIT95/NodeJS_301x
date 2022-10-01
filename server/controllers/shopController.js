@@ -61,12 +61,10 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrder()
-    .then(orders => {
-      res.send(orders);
-    })
-    .catch(err => console.log(err));
+  Order.find({ 'user.userId': req.user._id }).then(orders => {
+    console.log(orders);
+    res.send(orders);
+  });
 };
 
 exports.postOrder = async (req, res, next) => {
@@ -74,7 +72,7 @@ exports.postOrder = async (req, res, next) => {
     .populate('cart.items.productId')
     .then(user => {
       const products = user.cart.items.map(i => {
-        return { quantity: i.quantity, product: i.productId };
+        return { quantity: i.quantity, product: { ...i.productId._doc } };
       });
       const order = new Order({
         user: { name: req.user.name, userId: req.user },
@@ -83,6 +81,7 @@ exports.postOrder = async (req, res, next) => {
       return order.save();
     })
     .then(result => {
+      req.user.clearCart();
       res.send(result);
     })
     .catch(err => console.log(err));
