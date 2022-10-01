@@ -25,12 +25,12 @@ class Orders extends Component {
     if (this.state.orders.length > 0) {
       const listOrder = this.state.orders.map(order => {
         return (
-          <div key={order.id}>
-            <h1># {order.id}</h1>
-            {order.products.map(product => {
+          <div key={order._id}>
+            <h3># {order._id}</h3>
+            {order.items.map(product => {
               return (
-                <h2 key={product.id}>
-                  {product.title}({product.orderItem.quantity})
+                <h2 key={product._id}>
+                  {product.title}({product.quantity})
                 </h2>
               );
             })}

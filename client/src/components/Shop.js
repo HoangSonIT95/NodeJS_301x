@@ -27,7 +27,7 @@ class Shop extends Component {
       .post('http://localhost:5000/cart', { productId: productId })
       .then(res => {
         alert('Add to cart successfully!');
-        window.location.href = '/';
+        window.location.href = '/cart';
         return res.data;
       })
       .catch(err => console.log(err));
