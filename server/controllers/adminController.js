@@ -2,6 +2,8 @@ const Product = require('../models/productsModel');
 class AdminController {
   getProducts = (req, res, next) => {
     Product.find()
+      // .select('title price -_id')
+      // .populate('userId', 'name')
       .then(products => {
         res.send(products);
       })
@@ -15,7 +17,14 @@ class AdminController {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    const product = new Product({ title, price, imageUrl, description });
+    const userId = req.user;
+    const product = new Product({
+      title,
+      price,
+      imageUrl,
+      description,
+      userId,
+    });
     product
       .save()
       .then(result => {

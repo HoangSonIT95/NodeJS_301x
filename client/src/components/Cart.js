@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     axios.get('http://localhost:5000/cart').then(res => {
-      setCart(res.data);
+      setProducts(res.data);
     });
   }, []);
 
@@ -26,15 +26,15 @@ const Cart = () => {
       window.location.href = '/orders';
     });
   };
-  if (cart.length > 0) {
-    const renderCart = cart.map(item => {
+  if (products.length > 0) {
+    const renderCart = products.map(item => {
       return (
         <div>
           <h3>
-            {item.title} ({item.quantity})
+            {item.productId.title} ({item.quantity})
           </h3>
           <form onSubmit={onDeleteItem}>
-            <input type='hidden' name='productId' value={item._id} />
+            <input type='hidden' name='productId' value={item.productId._id} />
             <button className='btn' type='submit'>
               Delete Item
             </button>

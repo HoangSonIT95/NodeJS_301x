@@ -4,7 +4,7 @@ const app = express();
 
 // const mongoConnect = require('./utils/db').mongoConnect;
 const mongoose = require('mongoose');
-// const User = require('./models/userModel');
+const User = require('./models/userModel');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -14,15 +14,14 @@ app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 
-// app.use((req, res, next) => {
-//   User.findById('6337b9115990fb1ec6795aaa')
-//     .then(user => {
-//       req.user = new User(user.name, user.email, user.cart, user._id);
-//       // req.user = user;
-//       next();
-//     })
-//     .catch(err => console.log(err));
-// });
+app.use((req, res, next) => {
+  User.findById('63382a18c052eb1bc68f221c')
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -31,5 +30,19 @@ mongoose
   .connect(
     'mongodb+srv://hoangson:Thanhnien123@cluster0.bnu0sln.mongodb.net/shop?retryWrites=true&w=majority'
   )
-  .then(result => app.listen(5000))
+  .then(result => {
+    User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: 'Max',
+          email: 'max@test.com',
+          cart: {
+            items: [],
+          },
+        });
+        user.save();
+      }
+    });
+    app.listen(5000);
+  })
   .catch(err => console.log(err));
