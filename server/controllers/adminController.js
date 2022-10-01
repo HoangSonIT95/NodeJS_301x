@@ -1,7 +1,7 @@
 const Product = require('../models/productsModel');
 class AdminController {
   getProducts = (req, res, next) => {
-    Product.fetchAll()
+    Product.find()
       .then(products => {
         res.send(products);
       })
@@ -11,19 +11,11 @@ class AdminController {
   getAddProduct = (req, res, next) => {};
 
   postAddProduct = (req, res, next) => {
-    console.log(req.user._id);
     const title = req.body.title;
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    const product = new Product(
-      title,
-      price,
-      imageUrl,
-      description,
-      null,
-      req.user._id
-    );
+    const product = new Product({ title, price, imageUrl, description });
     product
       .save()
       .then(result => {
@@ -38,9 +30,6 @@ class AdminController {
     const prodId = req.params.productId;
     Product.findById(prodId)
       .then(product => {
-        if (!product) {
-          return res.redirect('/');
-        }
         res.send(product);
       })
       .catch(err => console.log(err));
@@ -52,16 +41,14 @@ class AdminController {
     const updatedPrice = req.body.price;
     const updatedImageUrl = req.body.imageUrl;
     const updatedDesc = req.body.description;
-
-    const product = new Product(
-      updatedTitle,
-      updatedPrice,
-      updatedImageUrl,
-      updatedDesc,
-      prodId
-    );
-    product
-      .save()
+    Product.findById(prodId)
+      .then(product => {
+        (product.title = updatedTitle),
+          (product.price = updatedPrice),
+          (product.imageUrl = updatedImageUrl),
+          (product.description = updatedDesc);
+        return product.save();
+      })
       .then(result => {
         res.send(result);
       })
