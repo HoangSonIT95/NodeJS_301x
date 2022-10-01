@@ -57,7 +57,7 @@ class AdminController {
 
   postDeleteProduct = (req, res, next) => {
     const prodId = req.body.prodId;
-    Product.deleteById(prodId)
+    Product.findByIdAndRemove(prodId)
       .then(result => {
         res.json(result);
       })
