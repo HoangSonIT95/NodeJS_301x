@@ -11,11 +11,19 @@ class AdminController {
   getAddProduct = (req, res, next) => {};
 
   postAddProduct = (req, res, next) => {
+    console.log(req.user._id);
     const title = req.body.title;
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const description = req.body.description;
-    const product = new Product(title, price, imageUrl, description);
+    const product = new Product(
+      title,
+      price,
+      imageUrl,
+      description,
+      null,
+      req.user._id
+    );
     product
       .save()
       .then(result => {
@@ -60,15 +68,13 @@ class AdminController {
       .catch(err => console.log(err));
   };
 
-  // postDeleteProduct = (req, res, next) => {
-  //   const prodId = req.body.prodId;
-  //   Product.findByPk(prodId)
-  //     .then(product => {
-  //       return product.destroy();
-  //     })
-  //     .then(result => res.send(result))
-  //     .catch(err => console.log(err));
-  //   res.redirect('/admin/products');
-  // };
+  postDeleteProduct = (req, res, next) => {
+    const prodId = req.body.prodId;
+    Product.deleteById(prodId)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => console.log(err));
+  };
 }
 module.exports = new AdminController();
