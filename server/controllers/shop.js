@@ -20,7 +20,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  console.log(req.cookies);
+  // console.log(req.cookies);
 
   Product.find()
     .then(products => {

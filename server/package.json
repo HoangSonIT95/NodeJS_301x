@@ -20,6 +20,7 @@
     "mongoose": "^6.6.3",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.20",
-    "sequelize": "^6.23.2"
+    "sequelize": "^6.23.2",
+    "universal-cookie": "^4.0.4"
   }
 }

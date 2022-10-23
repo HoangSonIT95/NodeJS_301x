@@ -5,21 +5,35 @@ import Cookies from 'universal-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
-  const handleLogin = async e => {
+  const handleLogin = e => {
     e.preventDefault();
     const user = {
       username: e.target.username.value,
       password: e.target.password.value,
     };
 
-    await axios
-      .post('http://localhost:5000/login', user)
+    // await fetch
+    //   .post('http://localhost:5000/login', user)
+    //   .then(res => {
+    //     const cookies = new Cookies();
+    //     cookies.set('connect.sid', res.data.cookieUser);
+    //     navigate('/');
+    //   })
+    //   .catch(err => alert(err.response.data));
+    fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then(res => res.json())
       .then(res => {
         const cookies = new Cookies();
-        // cookies.set('userId', res.data.userId);
+        cookies.set('connect.sid', res.cookieUser);
         navigate('/');
       })
-      .catch(err => alert(err.response.data));
+      .catch(err => alert(err.response));
   };
 
   return (
