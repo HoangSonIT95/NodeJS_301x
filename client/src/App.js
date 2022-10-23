@@ -14,6 +14,7 @@ import './App.css';
 import './CSS/main.css';
 import './CSS/product.css';
 import './CSS/forms.css';
+import Login from './components/Login';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         />
         <Route exact path='/detail/:productId' element={<Detail />} />
         <Route path='/orders' element={<Orders />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </div>
   );

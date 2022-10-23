@@ -34,14 +34,21 @@ main {
 
 .main-header__nav {
   height: 100%;
+  width: 100%;
   display: none;
   align-items: center;
 }
 
 .main-header__item-list {
   list-style: none;
+  width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-header__item-left {
   display: flex;
 }
 
