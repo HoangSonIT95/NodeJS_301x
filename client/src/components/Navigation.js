@@ -5,13 +5,12 @@ import Cookies from 'universal-cookie';
 
 const Navigation = () => {
   const navigate = useNavigate();
+
   const handleLogout = async () => {
-    // axios.post('http://localhost:5000/logout', {
-    //   headers: {
-    //     Cookie: `connect.sid=${cookie}`,
-    //   },
-    //   withCredentials: true,
-    // });
+    //   axios.post('http://localhost:5000/logout', {
+    //     credentials: true,
+    //   });
+
     await fetch('http://localhost:5000/logout', {
       method: 'POST',
       credentials: 'include',

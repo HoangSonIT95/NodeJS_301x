@@ -8,9 +8,7 @@ exports.postLogin = async (req, res, next) => {
   })
     .then(user => {
       req.session.userId = user._id;
-      res.status(200).json({
-        cookieUser: req.session,
-      });
+      res.status(200).json(req.session);
     })
     .catch(err => res.status(404));
 };
@@ -19,7 +17,7 @@ exports.postLogin = async (req, res, next) => {
 // console.log(cookies.get('connect.sid'));
 
 exports.postLogout = async (req, res, next) => {
-  console.log(req.headers.cookie);
+  console.log(req.cookies);
   await req.session.destroy(err => {
     // console.log(err);
     // res.redirect('/');

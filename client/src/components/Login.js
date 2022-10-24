@@ -30,7 +30,7 @@ const Login = () => {
       .then(res => res.json())
       .then(res => {
         const cookies = new Cookies();
-        cookies.set('connect.sid', res.cookieUser);
+        // cookies.set('connect.sid', res);
         navigate('/');
       })
       .catch(err => alert(err.response));
