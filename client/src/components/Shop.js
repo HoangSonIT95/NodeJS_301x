@@ -1,56 +1,58 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+import { useNavigate, Link } from 'react-router-dom';
 
-class Shop extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-    };
-  }
-
-  componentDidMount() {
+const Shop = () => {
+  const [products, setProducts] = useState([]);
+  const cookies = new Cookies();
+  const cookie = cookies.get('loggedIn');
+  const [loggedIn, setLoggedIn] = useState(cookie);
+  const navigate = useNavigate();
+  useEffect(() => {
     axios
       .get('http://localhost:5000/')
       .then(res => {
         const products = res.data;
-        this.setState({ products });
+        setProducts(products);
       })
       .catch(err => {
         console.log(err);
       });
-  }
-  addToCart(e) {
+  }, [loggedIn]);
+
+  const addToCart = e => {
     e.preventDefault();
     let productId = e.target.productId.value;
     axios
-      .post('http://localhost:5000/cart', { productId: productId })
+      .post('http://localhost:3000/cart', { productId: productId })
       .then(res => {
         alert('Add to cart successfully!');
-        window.location.href = '/cart';
+        navigate('cart');
         return res.data;
       })
       .catch(err => console.log(err));
-  }
-  render() {
-    const productsList = this.state.products.map(product => {
-      return (
-        <article className='card product-item'>
-          <header className='card__header'>
-            <h1 className='product__title'>{product.title}</h1>
-          </header>
-          <div className='card__image'>
-            <img src={product.imageUrl} alt={product.title} />
-          </div>
-          <div className='card__content'>
-            <h2 className='product__price'>{product.price} $</h2>
-            <p className='product__description'>{product.description}</p>
-          </div>
-          <div className='card__actions'>
-            <a href={`/detail/${product._id}`} className='btn'>
-              Details
-            </a>
-            <form className='form__btn' type='submit' onSubmit={this.addToCart}>
+  };
+
+  const productsList = products.map(product => {
+    return (
+      <article className='card product-item' key={product._id}>
+        <header className='card__header'>
+          <h1 className='product__title'>{product.title}</h1>
+        </header>
+        <div className='card__image'>
+          <img src={product.imageUrl} alt={product.title} />
+        </div>
+        <div className='card__content'>
+          <h2 className='product__price'>{product.price} $</h2>
+          <p className='product__description'>{product.description}</p>
+        </div>
+        <div className='card__actions'>
+          <Link to={`/detail/${product._id}`} className='btn'>
+            Details
+          </Link>
+          {loggedIn === 'true' && (
+            <form className='form__btn' type='submit' onSubmit={addToCart}>
               <button className='btn' type='submit'>
                 Add to Cart
               </button>
@@ -61,12 +63,12 @@ class Shop extends Component {
                 value={product._id}
               />
             </form>
-          </div>
-        </article>
-      );
-    });
-    return <div className='grid'>{productsList}</div>;
-  }
-}
+          )}
+        </div>
+      </article>
+    );
+  });
+  return <div className='grid'>{productsList}</div>;
+};
 
 export default Shop;

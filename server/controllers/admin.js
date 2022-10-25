@@ -9,7 +9,6 @@ class AdminController {
       })
       .catch(err => console.log(err));
   };
-
   getAddProduct = (req, res, next) => {};
 
   postAddProduct = (req, res, next) => {

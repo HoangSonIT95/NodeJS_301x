@@ -12,7 +12,9 @@ class AdminProducts extends Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:5000/admin/products')
+      .get('http://localhost:3000/admin/products', {
+        withCredentials: true,
+      })
       .then(res => {
         const products = res.data;
         this.setState({ products });
@@ -26,7 +28,13 @@ class AdminProducts extends Component {
     const prodId = e.target.productId.value;
     e.preventDefault();
     axios
-      .post('http://localhost:5000/admin/delete-product', { prodId })
+      .post(
+        'http://localhost:3000/admin/delete-product',
+        { prodId },
+        {
+          withCredentials: true,
+        }
+      )
       .then(res => (window.location.href = '/admin/products'))
       .catch(err => console.log(err));
   }

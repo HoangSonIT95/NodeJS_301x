@@ -8,7 +8,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/admin/edit-product/${params.productId}`)
+      .get(`http://localhost:3000/admin/edit-product/${params.productId}`)
       .then(res => setProduct(res.data));
   }, [params.productId]);
 
@@ -23,8 +23,11 @@ const EditProduct = () => {
     };
     axios
       .post(
-        `http://localhost:5000/admin/edit-product/${params.productId}`,
-        updateProduct
+        `http://localhost:3000/admin/edit-product/${params.productId}`,
+        updateProduct,
+        {
+          withCredentials: true,
+        }
       )
       .then(res => {
         alert('Updated Product Success!');

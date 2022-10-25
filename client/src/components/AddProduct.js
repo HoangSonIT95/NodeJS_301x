@@ -17,7 +17,9 @@ class AddProduct extends Component {
       price: target.price.value,
     };
     axios
-      .post('http://localhost:5000/admin/add-product', newProduct)
+      .post('http://localhost:3000/admin/add-product', newProduct, {
+        withCredentials: true,
+      })
       .then(res => {
         alert('Add success!');
         window.location.href = '/admin/products';

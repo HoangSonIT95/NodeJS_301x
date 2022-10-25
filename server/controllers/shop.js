@@ -20,8 +20,6 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  // console.log(req.cookies);
-
   Product.find()
     .then(products => {
       res.send(products);
@@ -36,7 +34,7 @@ exports.getCart = async (req, res, next) => {
     .populate('cart.items.productId')
     .then(user => {
       const products = user.cart.items;
-      res.send(products);
+      res.status(200).json(products);
     })
     .catch(err => console.log(err));
 };
@@ -81,6 +79,7 @@ exports.postOrder = async (req, res, next) => {
       });
       return order.save();
     })
+
     .then(result => {
       req.user.clearCart();
       res.send(result);

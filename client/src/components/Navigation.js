@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 const Navigation = () => {
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState('');
+  const cookies = new Cookies();
+  const cookie = cookies.get('loggedIn');
 
-  const handleLogout = async () => {
-    //   axios.post('http://localhost:5000/logout', {
-    //     credentials: true,
-    //   });
+  useEffect(() => {
+    setLoggedIn(cookie);
+  }, [cookie]);
 
-    await fetch('http://localhost:5000/logout', {
-      method: 'POST',
-      credentials: 'include',
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-      });
+  const handleLogout = () => {
+    axios
+      .post('http://localhost:3000/logout', {
+        withCredentials: true,
+      })
+      .then(res => navigate('/'));
   };
 
   return (
@@ -34,26 +34,39 @@ const Navigation = () => {
             <div className='main-header__item'>
               <NavLink to='/products'>Products</NavLink>
             </div>
-            <div className='main-header__item'>
-              <NavLink to='/cart'>Cart</NavLink>
-            </div>
-            <div className='main-header__item'>
-              <NavLink to='/orders'>Orders</NavLink>
-            </div>
-            <div className='main-header__item'>
-              <NavLink to='/admin/add-product'>Add Product</NavLink>
-            </div>
-            <div className='main-header__item'>
-              <NavLink to='/admin/products'>Admin Products</NavLink>
-            </div>
+            {loggedIn === 'true' && (
+              <div className='main-header__item'>
+                <NavLink to='/cart'>Cart</NavLink>
+              </div>
+            )}
+            {loggedIn === 'true' && (
+              <div className='main-header__item'>
+                <NavLink to='/orders'>Orders</NavLink>
+              </div>
+            )}
+            {loggedIn === 'true' && (
+              <div className='main-header__item'>
+                <NavLink to='/admin/add-product'>Add Product</NavLink>
+              </div>
+            )}
+            {loggedIn === 'true' && (
+              <div className='main-header__item'>
+                <NavLink to='/admin/products'>Admin Products</NavLink>
+              </div>
+            )}
           </div>
           <div className='main-header__item-right'>
-            <div className='main-header__item'>
-              <NavLink to='/login'>Login</NavLink>
-            </div>
-            <div className='main-header__item'>
-              <button onClick={handleLogout}>Logout</button>
-            </div>
+            {loggedIn === 'false' ? (
+              <div className='main-header__item'>
+                <NavLink to='/login'>Login</NavLink>
+              </div>
+            ) : (
+              <div className='main-header__item'>
+                <a href='#' onClick={handleLogout}>
+                  Logout
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </nav>

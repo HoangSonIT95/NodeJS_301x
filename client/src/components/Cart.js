@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 const Cart = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:5000/cart').then(res => {
+    axios.get('http://localhost:3000/cart').then(res => {
       setProducts(res.data);
     });
   }, []);
@@ -13,7 +13,7 @@ const Cart = () => {
     const productId = e.target.productId.value;
     e.preventDefault();
     axios
-      .post('http://localhost:5000/cart-delete-item', { productId: productId })
+      .post('http://localhost:3000/cart-delete-item', { productId: productId })
       .then(res => {
         alert('Delete product in cart success!');
         window.location.href = '/cart';
@@ -21,7 +21,7 @@ const Cart = () => {
   };
 
   const postOrder = () => {
-    axios.post('http://localhost:5000/create-order').then(res => {
+    axios.post('http://localhost:3000/create-order').then(res => {
       console.log(res.data);
       window.location.href = '/orders';
     });

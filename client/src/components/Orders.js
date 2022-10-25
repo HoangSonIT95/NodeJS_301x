@@ -11,7 +11,9 @@ class Orders extends Component {
 
   componentDidMount() {
     axios
-      .get('http://localhost:5000/orders')
+      .get('http://localhost:3000/orders', {
+        withCredentials: true,
+      })
       .then(res => {
         const orders = res.data;
         this.setState({ orders });
