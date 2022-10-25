@@ -1,11 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
 // const mongoConnect = require('./utils/db').mongoConnect;
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const flash = require('connect-flash');
 
 const MONGODB_URI =
   'mongodb+srv://hoangson:Thanhnien123@cluster0.bnu0sln.mongodb.net/shop?w=majority';
@@ -34,6 +34,8 @@ app.use(
     store: store,
   })
 );
+
+app.use(flash());
 
 app.use((req, res, next) => {
   if (!req.session.userId) {
