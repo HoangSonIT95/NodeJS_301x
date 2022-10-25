@@ -1,15 +1,59 @@
 const User = require('../models/User.js');
+const bcrypt = require('bcrypt');
 
 exports.postLogin = async (req, res, next) => {
+  const password = req.body.password;
   await User.findOne({
-    username: req.body.username,
-    password: req.body.password,
+    email: req.body.email,
   })
     .then(user => {
-      req.session.userId = user._id;
-      res.cookie('loggedIn', true).status(200).json('login success');
+      if (!user) {
+        res.status(404).json('Email not exists!');
+      }
+      bcrypt
+        .compare(password, user.password)
+        .then(doMatch => {
+          if (doMatch) {
+            req.session.userId = user._id;
+            return res
+              .cookie('loggedIn', true)
+              .status(200)
+              .json('Login success!');
+          }
+          res.status(404).json('Wrong password!');
+        })
+        .catch(err => console.log(err));
     })
-    .catch(err => res.status(404).json('Wrong username or password!'));
+    .catch(err => console.log(err));
+};
+
+exports.postRegister = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({
+    email: email,
+  })
+    .then(user => {
+      if (user) {
+        return res.status(500).json('Email already exists!');
+      }
+      return bcrypt
+        .hash(password, 15)
+        .then(hashedPassword => {
+          const newUser = new User({
+            email: email,
+            password: hashedPassword,
+            cart: {
+              items: [],
+            },
+          });
+          return newUser.save();
+        })
+        .then(result => res.status(200).json('Register success!'));
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 exports.postLogout = (req, res, next) => {
