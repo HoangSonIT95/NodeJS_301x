@@ -15,11 +15,11 @@ import './CSS/product.css';
 import './CSS/forms.css';
 import Login from './components/Login';
 import Cookies from 'universal-cookie';
+import Register from './components/Register';
 
 function App() {
   const cookies = new Cookies();
   const cookie = cookies.get('loggedIn');
-
   const ProtectedRoute = ({ children }) => {
     if (cookie === 'false') {
       return <Navigate to='/login' />;
@@ -75,6 +75,7 @@ function App() {
           }
         />
         <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </div>
   );

@@ -21,3 +21,31 @@
 .form-control textarea:focus {
   outline-color: #00695c;
 }
+
+.signup-form {
+  width: 20rem;
+  min-width: 30%;
+  max-width: 90%;
+  margin: auto;
+  padding-top: 100px;
+}
+
+.signup-form-control {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 5px;
+}
+
+.signup-form-control input,
+.signup-form-control textarea {
+  border: 1px solid #a1a1a1;
+  font: inherit;
+  border-radius: 2px;
+}
+
+.signup-form-control input:focus,
+.signup-form-control textarea:focus {
+  outline-color: #00695c;
+}

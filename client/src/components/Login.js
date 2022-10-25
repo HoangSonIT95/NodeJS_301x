@@ -1,14 +1,13 @@
 import axios from 'axios';
 import '../CSS/login.css';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
   const handleLogin = async e => {
     e.preventDefault();
     const user = {
-      username: e.target.username.value,
+      email: e.target.email.value,
       password: e.target.password.value,
     };
 
@@ -24,8 +23,8 @@ const Login = () => {
     <div>
       <form onSubmit={handleLogin} className='login-form'>
         <div className='form-control'>
-          <label htmlFor='username'>Username</label>
-          <input type='text' name='username' id='username' />
+          <label htmlFor='email'>Email</label>
+          <input type='text' name='email' id='email' />
         </div>
         <div className='form-control'>
           <label htmlFor='password'>Password</label>

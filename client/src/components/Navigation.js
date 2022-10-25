@@ -56,9 +56,11 @@ const Navigation = () => {
             )}
           </div>
           <div className='main-header__item-right'>
-            {loggedIn === 'false' ? (
+            {!loggedIn || loggedIn === 'false' ? (
               <div className='main-header__item'>
                 <NavLink to='/login'>Login</NavLink>
+
+                <NavLink to='/register'>Register</NavLink>
               </div>
             ) : (
               <div className='main-header__item'>

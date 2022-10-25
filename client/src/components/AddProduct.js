@@ -31,19 +31,19 @@ class AddProduct extends Component {
       <main>
         <form className='product-form' onSubmit={this.onAddProduct}>
           <div className='form-control'>
-            <label for='title'>Title</label>
+            <label htmlFor='title'>Title</label>
             <input type='text' name='title' id='title' />
           </div>
           <div className='form-control'>
-            <label for='imageUrl'>Image URL</label>
+            <label htmlFor='imageUrl'>Image URL</label>
             <input type='text' name='imageUrl' id='imageUrl' />
           </div>
           <div className='form-control'>
-            <label for='price'>Price</label>
+            <label htmlFor='price'>Price</label>
             <input type='number' name='price' id='price' step='0.01' />
           </div>
           <div className='form-control'>
-            <label for='description'>Description</label>
+            <label htmlFor='description'>Description</label>
             <textarea name='description' id='description' rows='5'></textarea>
           </div>
           <input type='hidden' name='productId' />
