@@ -23,7 +23,8 @@ class AddProduct extends Component {
       .then(res => {
         alert('Add success!');
         window.location.href = '/admin/products';
-      });
+      })
+      .catch(err => alert(err.response.data));
   }
 
   render() {

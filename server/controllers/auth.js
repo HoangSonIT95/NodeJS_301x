@@ -20,29 +20,26 @@ exports.postLogin = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(422).json(errors.array()[0].msg);
   }
-  
-  await User.findOne({
-    email: req.body.email,
-  })
-    .then(user => {
-      if (!user) {
-        res.status(404).json('Email not exists!');
+
+  // await User.findOne({
+  //   email: req.body.email,
+  // })
+  //   .then(user => {
+  //     if (!user) {
+  //       res.status(404).json('Email not exists!');
+  //     }
+  bcrypt
+    .compare(password, req.user.password)
+    .then(doMatch => {
+      if (doMatch) {
+        req.session.userId = req.user._id;
+        return res.cookie('loggedIn', true).status(200).json('Login success!');
       }
-      bcrypt
-        .compare(password, user.password)
-        .then(doMatch => {
-          if (doMatch) {
-            req.session.userId = user._id;
-            return res
-              .cookie('loggedIn', true)
-              .status(200)
-              .json('Login success!');
-          }
-          res.status(404).json('Wrong password!');
-        })
-        .catch(err => console.log(err));
+      res.status(404).json('Wrong password!');
     })
     .catch(err => console.log(err));
+  // })
+  // .catch(err => console.log(err));
 };
 
 exports.postRegister = (req, res, next) => {

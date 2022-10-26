@@ -1,4 +1,6 @@
 const Product = require('../models/Product.js');
+const { validationResult } = require('express-validator');
+
 class AdminController {
   getProducts = (req, res, next) => {
     Product.find({ userId: req.user._id })
@@ -24,6 +26,11 @@ class AdminController {
       description,
       userId,
     });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json(errors.array()[0].msg);
+    }
+    
     product
       .save()
       .then(result => {

@@ -14,6 +14,7 @@ exports.validateLogin = [
             'Email exists already, please pick a different one.'
           );
         }
+        req.user = user;
       });
     }),
   body(
@@ -58,5 +59,19 @@ exports.validateSignup = [
 ];
 
 exports.validateAddProduct = [
-    body('title').isAlphanumeric().isLength({min:3}).trim(),body('imageUrl').isURL(),body('price').is
-]
+  body('title')
+    .isAlphanumeric()
+    .isLength({ min: 5 })
+    .trim()
+    .withMessage('Please enter a title with text and at least 5 characters.'),
+  body('imageUrl').isURL().withMessage('Please enter a valid image URL.'),
+  body('price')
+    .isFloat()
+    .withMessage('Please enter a price with float number.'),
+  body('description')
+    .isLength({ min: 5 })
+    .trim()
+    .withMessage(
+      'Please enter a description with text and at least 5 characters. '
+    ),
+];
