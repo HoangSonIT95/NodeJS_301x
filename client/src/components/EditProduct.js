@@ -32,7 +32,8 @@ const EditProduct = () => {
       .then(res => {
         alert('Updated Product Success!');
         window.location.href = '/admin/products';
-      });
+      })
+      .catch(err => alert(err.response.data));
   };
 
   if (product) {

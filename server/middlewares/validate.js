@@ -58,7 +58,7 @@ exports.validateSignup = [
   }),
 ];
 
-exports.validateAddProduct = [
+exports.validateProduct = [
   body('title')
     .isString()
     .isLength({ min: 5 })
@@ -69,7 +69,7 @@ exports.validateAddProduct = [
     .isFloat()
     .withMessage('Please enter a price with float number.'),
   body('description')
-    .isLength({ min: 5 })
+    .isLength({ min: 5, max: 400 })
     .trim()
     .withMessage(
       'Please enter a description with text and at least 5 characters. '

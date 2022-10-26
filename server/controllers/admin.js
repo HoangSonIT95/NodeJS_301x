@@ -30,7 +30,7 @@ class AdminController {
     if (!errors.isEmpty()) {
       return res.status(422).json(errors.array()[0].msg);
     }
-    
+
     product
       .save()
       .then(result => {
@@ -51,31 +51,37 @@ class AdminController {
   };
 
   postEditProduct = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json(errors.array()[0].msg);
+    }
+
     const prodId = req.params.productId;
     const updatedTitle = req.body.title;
     const updatedPrice = req.body.price;
     const updatedImageUrl = req.body.imageUrl;
     const updatedDesc = req.body.description;
+
     Product.findById(prodId)
       .then(product => {
-        if(product.userId !== req.user._id){
-          return res.status(500).json('You are not authorization')
+        if (product.userId.toString() !== req.user._id.toString()) {
+          return res.status(500).json('You are not authorization');
         }
-        (product.title = updatedTitle);
-          (product.price = updatedPrice);
-          (product.imageUrl = updatedImageUrl);
-          (product.description = updatedDesc);
+        product.title = updatedTitle;
+        product.price = updatedPrice;
+        product.imageUrl = updatedImageUrl;
+        product.description = updatedDesc;
         return product.save().then(result => {
           res.send(result);
         });
       })
-      
+
       .catch(err => console.log(err));
   };
 
   postDeleteProduct = (req, res, next) => {
     const prodId = req.body.prodId;
-    Product.deleteOne({_id: prodId, userId: req.user._id})
+    Product.deleteOne({ _id: prodId, userId: req.user._id })
       .then(result => {
         res.json(result);
       })

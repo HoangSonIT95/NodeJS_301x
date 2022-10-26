@@ -4,7 +4,7 @@ const router = express.Router();
 
 const adminController = require('../controllers/admin');
 const auth = require('../middlewares/auth');
-const { validateAddProduct } = require('../middlewares/validate');
+const { validateProduct } = require('../middlewares/validate');
 
 // /admin/add-product => GET
 router.get('/add-product', auth.authLogin, adminController.getAddProduct);
@@ -16,7 +16,7 @@ router.get('/products', auth.authLogin, adminController.getProducts);
 router.post(
   '/add-product',
   auth.authLogin,
-  validateAddProduct,
+  validateProduct,
   adminController.postAddProduct
 );
 
@@ -29,6 +29,7 @@ router.get(
 router.post(
   '/edit-product/:productId',
   auth.authLogin,
+  validateProduct,
   adminController.postEditProduct
 );
 
