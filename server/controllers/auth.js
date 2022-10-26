@@ -1,5 +1,16 @@
 const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transporter = nodemailer.createTransport(
+  sendgridTransport({
+    auth: {
+      api_key:
+        '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',
+    },
+  })
+);
 
 exports.postLogin = async (req, res, next) => {
   const password = req.body.password;
@@ -49,7 +60,18 @@ exports.postRegister = (req, res, next) => {
           });
           return newUser.save();
         })
-        .then(result => res.status(200).json('Register success!'));
+        .then(result => {
+          res.status(200).json('Register success!');
+          transporter.sendMail({
+            to: email,
+            from: 'sonhvfx16039@funix.edu.vn',
+            subject: 'Sign succeeded!',
+            html: '<h1>You successfully signed up!</h1>',
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     })
     .catch(err => {
       console.log(err);
