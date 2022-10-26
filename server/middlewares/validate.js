@@ -60,7 +60,7 @@ exports.validateSignup = [
 
 exports.validateAddProduct = [
   body('title')
-    .isAlphanumeric()
+    .isString()
     .isLength({ min: 5 })
     .trim()
     .withMessage('Please enter a title with text and at least 5 characters.'),
