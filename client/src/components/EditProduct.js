@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const EditProduct = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState();
+  const [errorInput, setErrorInput] = useState('');
 
   useEffect(() => {
     axios
@@ -31,9 +33,12 @@ const EditProduct = () => {
       )
       .then(res => {
         alert('Updated Product Success!');
-        window.location.href = '/admin/products';
+        navigate('/admin/products');
       })
-      .catch(err => alert(err.response.data));
+      .catch(err => {
+        alert(err.response.data.msg);
+        setErrorInput(err.response.data.param);
+      });
   };
 
   if (product) {
@@ -47,6 +52,7 @@ const EditProduct = () => {
               name='title'
               id='title'
               defaultValue={product.title}
+              className={errorInput == 'title' ? 'invalid' : ''}
             />
           </div>
           <div className='form-control'>
@@ -56,6 +62,7 @@ const EditProduct = () => {
               name='imageUrl'
               id='imageUrl'
               defaultValue={product.imageUrl}
+              className={errorInput == 'imageUrl' ? 'invalid' : ''}
             />
           </div>
           <div className='form-control'>
@@ -66,6 +73,7 @@ const EditProduct = () => {
               id='price'
               step='0.01'
               defaultValue={product.price}
+              className={errorInput == 'price' ? 'invalid' : ''}
             />
           </div>
           <div className='form-control'>
@@ -75,6 +83,7 @@ const EditProduct = () => {
               id='description'
               rows='5'
               defaultValue={product.description}
+              className={errorInput == 'description' ? 'invalid' : ''}
             ></textarea>
           </div>
           <input type='hidden' name='productId' />
