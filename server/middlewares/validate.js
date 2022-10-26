@@ -56,3 +56,7 @@ exports.validateSignup = [
     return true;
   }),
 ];
+
+exports.validateAddProduct = [
+    body('title').isAlphanumeric().isLength({min:3}).trim(),body('imageUrl').isURL(),body('price').is
+]
