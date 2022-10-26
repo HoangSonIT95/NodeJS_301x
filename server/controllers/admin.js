@@ -1,7 +1,7 @@
 const Product = require('../models/Product.js');
 class AdminController {
   getProducts = (req, res, next) => {
-    Product.find()
+    Product.find({ userId: req.user._id })
       // .select('title price -_id')
       // .populate('userId', 'name')
       .then(products => {
@@ -51,21 +51,24 @@ class AdminController {
     const updatedDesc = req.body.description;
     Product.findById(prodId)
       .then(product => {
-        (product.title = updatedTitle),
-          (product.price = updatedPrice),
-          (product.imageUrl = updatedImageUrl),
+        if(product.userId !== req.user._id){
+          return res.status(500).json('You are not authorization')
+        }
+        (product.title = updatedTitle);
+          (product.price = updatedPrice);
+          (product.imageUrl = updatedImageUrl);
           (product.description = updatedDesc);
-        return product.save();
+        return product.save().then(result => {
+          res.send(result);
+        });
       })
-      .then(result => {
-        res.send(result);
-      })
+      
       .catch(err => console.log(err));
   };
 
   postDeleteProduct = (req, res, next) => {
     const prodId = req.body.prodId;
-    Product.findByIdAndRemove(prodId)
+    Product.deleteOne({_id: prodId, userId: req.user._id})
       .then(result => {
         res.json(result);
       })

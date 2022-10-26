@@ -2,6 +2,7 @@ const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const { validationResult } = require('express-validator');
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -14,6 +15,12 @@ const transporter = nodemailer.createTransport(
 
 exports.postLogin = async (req, res, next) => {
   const password = req.body.password;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.array()[0].msg);
+  }
+  
   await User.findOne({
     email: req.body.email,
   })
@@ -41,37 +48,37 @@ exports.postLogin = async (req, res, next) => {
 exports.postRegister = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  User.findOne({
-    email: email,
-  })
-    .then(user => {
-      if (user) {
-        return res.status(500).json('Email already exists!');
-      }
-      return bcrypt
-        .hash(password, 15)
-        .then(hashedPassword => {
-          const newUser = new User({
-            email: email,
-            password: hashedPassword,
-            cart: {
-              items: [],
-            },
-          });
-          return newUser.save();
-        })
-        .then(result => {
-          res.status(200).json('Register success!');
-          transporter.sendMail({
-            to: email,
-            from: 'sonhvfx16039@funix.edu.vn',
-            subject: 'Sign succeeded!',
-            html: '<h1>You successfully signed up!</h1>',
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json(errors.array()[0].msg);
+  }
+  // User.findOne({
+  //   email: email,
+  // })
+  //   .then(user => {
+  //     if (user) {
+  //       return res.status(500).json('Email already exists!');
+  //     }
+  bcrypt
+    .hash(password, 15)
+    .then(hashedPassword => {
+      const newUser = new User({
+        email: email,
+        password: hashedPassword,
+        cart: {
+          items: [],
+        },
+      });
+      return newUser.save();
+    })
+    .then(result => {
+      res.status(200).json('Register success!');
+      transporter.sendMail({
+        to: email,
+        from: 'sonhvfx16039@funix.edu.vn',
+        subject: 'Sign succeeded!',
+        html: '<h1>You successfully signed up!</h1>',
+      });
     })
     .catch(err => {
       console.log(err);

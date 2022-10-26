@@ -1,6 +1,7 @@
 import axios from 'axios';
 import '../CSS/login.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const Login = () => {
       <form onSubmit={handleLogin} className='login-form'>
         <div className='form-control'>
           <label htmlFor='email'>Email</label>
-          <input type='text' name='email' id='email' />
+          <input type='email' name='email' id='email' />
         </div>
         <div className='form-control'>
           <label htmlFor='password'>Password</label>

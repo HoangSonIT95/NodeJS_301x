@@ -11,6 +11,7 @@ const Register = () => {
     const newUser = {
       email: e.target.email.value,
       password: e.target.password.value,
+      confirmPassword: e.target.password_confirm.value,
     };
 
     axios
@@ -21,7 +22,7 @@ const Register = () => {
 
   return (
     <div>
-      <form onSubmit={handleSignUp} className='signup-form'>
+      <form onSubmit={handleSignUp} className='signup-form' noValidate>
         <div className='signup-form-control'>
           <label htmlFor='email'>Email</label>
           <input type='text' name='email' id='email' />
