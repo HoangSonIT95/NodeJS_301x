@@ -6,7 +6,10 @@ exports.getProducts = (req, res, next) => {
       res.send(products);
     })
     .catch(err => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
     });
 };
 
@@ -16,7 +19,12 @@ exports.getProduct = (req, res, next) => {
     .then(product => {
       res.send(product);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
+    });
 };
 
 exports.getIndex = (req, res, next) => {
@@ -25,7 +33,10 @@ exports.getIndex = (req, res, next) => {
       res.send(products);
     })
     .catch(err => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
     });
 };
 
@@ -36,7 +47,12 @@ exports.getCart = async (req, res, next) => {
       const products = user.cart.items;
       res.status(200).json(products);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
+    });
 };
 
 exports.postCart = (req, res, next) => {
@@ -47,6 +63,12 @@ exports.postCart = (req, res, next) => {
     })
     .then(result => {
       res.send(result);
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
     });
 };
 
@@ -57,12 +79,22 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .then(result => {
       res.send(result);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
+    });
 };
 
 exports.getOrders = (req, res, next) => {
   Order.find({ 'user.userId': req.user._id }).then(orders => {
-    res.send(orders);
+    res.send(orders).catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
+    });
   });
 };
 
@@ -84,12 +116,10 @@ exports.postOrder = async (req, res, next) => {
       req.user.clearCart();
       res.send(result);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
+    });
 };
-
-// exports.getCheckout = (req, res, next) => {
-//   res.render('shop/checkout', {
-//     path: '/checkout',
-//     pageTitle: 'Checkout',
-//   });
-// };

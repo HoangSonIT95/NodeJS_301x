@@ -9,7 +9,12 @@ class AdminController {
       .then(products => {
         res.send(products);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        error.message = err.message;
+        return next(error);
+      });
   };
   getAddProduct = (req, res, next) => {};
 
@@ -26,6 +31,7 @@ class AdminController {
       description,
       userId,
     });
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json(errors.array()[0].msg);
@@ -37,7 +43,10 @@ class AdminController {
         res.send(result);
       })
       .catch(err => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        error.message = err.message;
+        return next(error);
       });
   };
 
@@ -47,7 +56,12 @@ class AdminController {
       .then(product => {
         res.send(product);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        error.message = err.message;
+        return next(error);
+      });
   };
 
   postEditProduct = (req, res, next) => {
@@ -76,7 +90,12 @@ class AdminController {
         });
       })
 
-      .catch(err => console.log(err));
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        error.message = err.message;
+        return next(error);
+      });
   };
 
   postDeleteProduct = (req, res, next) => {
@@ -85,7 +104,12 @@ class AdminController {
       .then(result => {
         res.json(result);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        error.message = err.message;
+        return next(error);
+      });
   };
 }
 module.exports = new AdminController();

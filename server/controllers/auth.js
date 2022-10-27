@@ -37,7 +37,12 @@ exports.postLogin = async (req, res, next) => {
       }
       res.status(404).json('Wrong password!');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
+    });
   // })
   // .catch(err => console.log(err));
 };
@@ -78,7 +83,10 @@ exports.postRegister = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      error.message = err.message;
+      return next(error);
     });
 };
 

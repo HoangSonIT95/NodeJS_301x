@@ -12,7 +12,7 @@ const Products = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5000/')
+      .get('http://localhost:5000/products')
       .then(res => {
         const products = res.data;
         setProducts(products);

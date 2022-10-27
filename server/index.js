@@ -43,15 +43,24 @@ app.use((req, res, next) => {
   }
   User.findById(req.session.userId)
     .then(user => {
+      if (!user) {
+        return next();
+      }
       req.user = user;
       next();
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      next(new Error(err));
+    });
 });
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
+
+app.use((error, req, res, next) => {
+  res.status(error.httpStatusCode).json(error.message);
+});
 
 mongoose
   .connect(MONGODB_URI)
