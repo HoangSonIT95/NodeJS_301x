@@ -28,14 +28,14 @@ class Orders extends Component {
       const listOrder = this.state.orders.map(order => {
         return (
           <div key={order._id}>
-            <h3># {order._id}</h3>
+            <h3>
+              # {order._id}{' '}
+              <a href={`http://localhost:5000/orders/${order._id}`}>Invoice</a>
+            </h3>
             {order.products.map(p => {
               return (
                 <h2 key={p._id}>
                   {p.product.title}({p.quantity}) -{' '}
-                  <a href={`http://localhost:5000/orders/${order._id}`}>
-                    Invoice
-                  </a>
                 </h2>
               );
             })}
