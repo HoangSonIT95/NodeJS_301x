@@ -104,8 +104,8 @@ class AdminController {
       });
   };
 
-  postDeleteProduct = (req, res, next) => {
-    const prodId = req.body.prodId;
+  DeleteProduct = (req, res, next) => {
+    const prodId = req.params.prodId;
     Product.deleteOne({ _id: prodId, userId: req.user._id })
       .then(result => {
         res.json(result);

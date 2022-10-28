@@ -46,7 +46,7 @@ const EditProduct = () => {
       <main>
         <form className='product-form' onSubmit={onEditProduct}>
           <div className='form-control'>
-            <label for='title'>Title</label>
+            <label htmlFor='title'>Title</label>
             <input
               type='text'
               name='title'
@@ -56,7 +56,7 @@ const EditProduct = () => {
             />
           </div>
           <div className='form-control'>
-            <label for='imageUrl'>Image URL</label>
+            <label htmlFor='imageUrl'>Image URL</label>
             <input
               type='text'
               name='imageUrl'
@@ -66,7 +66,7 @@ const EditProduct = () => {
             />
           </div>
           <div className='form-control'>
-            <label for='price'>Price</label>
+            <label htmlFor='price'>Price</label>
             <input
               type='number'
               name='price'
@@ -77,7 +77,7 @@ const EditProduct = () => {
             />
           </div>
           <div className='form-control'>
-            <label for='description'>Description</label>
+            <label htmlFor='description'>Description</label>
             <textarea
               name='description'
               id='description'
