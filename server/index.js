@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 // const mongoConnect = require('./utils/db').mongoConnect;
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const MONGODB_URI =
   'mongodb+srv://hoangson:Thanhnien123@cluster0.bnu0sln.mongodb.net/shop?w=majority';
@@ -25,6 +27,9 @@ const authRoutes = require('./routes/auth');
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+
+// app.use(multer({ dest: 'images/' }).single('image'));
+
 app.use(cookieParser());
 app.use(
   session({
@@ -59,7 +64,8 @@ app.use(shopRoutes);
 app.use(authRoutes);
 
 app.use((error, req, res, next) => {
-  res.status(error.httpStatusCode).json(error.message);
+  return res.status(error.httpStatusCode || 500).json(error.message);
+  // return console.log(error);
 });
 
 mongoose

@@ -23,6 +23,7 @@ router.post(
 );
 
 router.get('/orders', auth.authLogin, shopController.getOrders);
+router.get('/orders/:orderId', auth.authLogin, shopController.getInvoice);
 router.post('/create-order', auth.authLogin, shopController.postOrder);
 
 // router.get('/checkout', shopController.getCheckout);

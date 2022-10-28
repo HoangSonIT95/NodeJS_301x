@@ -64,7 +64,6 @@ exports.validateProduct = [
     .isLength({ min: 5 })
     .trim()
     .withMessage('Please enter a title with text and at least 5 characters.'),
-  body('imageUrl').isURL().withMessage('Please enter a valid image URL.'),
   body('price')
     .isFloat()
     .withMessage('Please enter a price with float number.'),

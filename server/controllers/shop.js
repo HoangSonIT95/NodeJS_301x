@@ -1,5 +1,9 @@
+const fs = require('fs');
+const path = require('path');
+
 const Product = require('../models/Product.js');
 const Order = require('../models/Order.js');
+
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then(products => {
@@ -88,14 +92,16 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  Order.find({ 'user.userId': req.user._id }).then(orders => {
-    res.send(orders).catch(err => {
+  Order.find({ 'user.userId': req.user._id })
+    .then(orders => {
+      res.send(orders);
+    })
+    .catch(err => {
       const error = new Error(err);
       error.httpStatusCode = 500;
       error.message = err.message;
       return next(error);
     });
-  });
 };
 
 exports.postOrder = async (req, res, next) => {
@@ -122,4 +128,50 @@ exports.postOrder = async (req, res, next) => {
       error.message = err.message;
       return next(error);
     });
+};
+
+exports.getInvoice = (req, res, next) => {
+  const orderId = req.params.orderId;
+  Order.findById(orderId)
+    .then(order => {
+      if (!order) {
+        const error = new Error();
+        error.httpStatusCode = 404;
+        error.message = 'No order found.';
+        return next(error);
+      }
+      if (order.user.userId.toString() !== req.user._id.toString()) {
+        const error = new Error();
+        error.httpStatusCode = 401;
+        error.message = 'Unauthorized';
+        return next(error);
+      }
+
+      const invoiceName = 'invoice-' + orderId + '.pdf';
+      const invoicePath = path.join('data', 'invoices', invoiceName);
+
+      // fs.readFile(invoicePath, (err, data) => {
+      //   if (err) {
+      //     const error = new Error(err);
+      //     error.httpStatusCode = 500;
+      //     error.message = err.message;
+      //     return next(error);
+      //   }
+      //   res.setHeader('Content-Type', 'application/pdf');
+      //   res.setHeader(
+      //     'Content-Disposition',
+      //     'attachment; filename="' + invoiceName + '"'
+      //   );
+      //   res.send(data);
+      // });
+
+      const file = fs.createReadStream(invoicePath);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader(
+        'Content-Disposition',
+        'attachment; filename="' + invoiceName + '"'
+      );
+      file.pipe(res);
+    })
+    .catch(err => next(err));
 };

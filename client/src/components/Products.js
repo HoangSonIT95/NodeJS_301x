@@ -29,7 +29,7 @@ const Products = () => {
       .post('http://localhost:3000/cart', { productId: productId })
       .then(res => {
         alert('Add to cart successfully!');
-        navigate('cart');
+        navigate('/cart');
         return res.data;
       })
       .catch(err => console.log(err));

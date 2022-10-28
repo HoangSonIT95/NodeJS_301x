@@ -32,7 +32,10 @@ class Orders extends Component {
             {order.products.map(p => {
               return (
                 <h2 key={p._id}>
-                  {p.product.title}({p.quantity})
+                  {p.product.title}({p.quantity}) -{' '}
+                  <a href={`http://localhost:5000/orders/${order._id}`}>
+                    Invoice
+                  </a>
                 </h2>
               );
             })}

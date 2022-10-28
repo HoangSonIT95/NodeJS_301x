@@ -20,10 +20,16 @@ class AdminController {
 
   postAddProduct = (req, res, next) => {
     const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
+    const image = req.file;
     const price = req.body.price;
     const description = req.body.description;
     const userId = req.user;
+
+    if (!image) {
+      return res.status(422).json('Attached file is not an image.');
+    }
+    const imageUrl = image.path;
+
     const product = new Product({
       title,
       price,
