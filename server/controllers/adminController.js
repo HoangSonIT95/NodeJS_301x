@@ -54,6 +54,16 @@ class AdminController {
       })
       .catch(err => console.log(err));
   };
+
+  postDeleteProduct = (req, res, next) => {
+    const prodId = req.params.id;
+    Product.findByPk(prodId)
+      .then(product => {
+        return product.destroy();
+      })
+      .then(result => res.send(result))
+      .catch(err => console.log(err));
+  };
 }
 
 module.exports = new AdminController();
