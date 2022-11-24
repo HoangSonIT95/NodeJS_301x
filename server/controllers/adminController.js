@@ -2,9 +2,9 @@ const Product = require('../models/productsModel');
 
 class AdminController {
   getProducts = (req, res, next) => {
-    Product.fetchAll()
-      .then(([rows, fieldData]) => {
-        res.send(rows);
+    Product.findAll()
+      .then(products => {
+        res.send(products);
       })
       .catch(err => console.log(err));
   };
@@ -22,7 +22,7 @@ class AdminController {
       imageUrl: imageUrl,
       description: description,
     })
-      .then(result => console.log(result))
+      .then(result => res.send(result))
       .catch(err => console.log(err));
   };
 
