@@ -12,7 +12,7 @@ class AddProduct extends Component {
     const target = event.target;
     const newProduct = {
       title: target.title.value,
-      imgUrl: target.imageUrl.value,
+      imageUrl: target.imageUrl.value,
       description: target.description.value,
       price: target.price.value,
     };
