@@ -28,26 +28,31 @@ class AdminController {
 
   getEditProduct = (req, res, next) => {
     const productId = req.params.productId;
-    Product.findAll({ where: { id: productId } })
-      .then(products => {
-        res.send(products[0]);
+    // Product.findAll({ where: { id: productId } })
+    //   .then(products => {
+    //     res.send(products[0]);
+    //   })
+    //   .catch(err => console.log(err));
+    Product.findByPk(productId)
+      .then(product => {
+        res.send(product);
       })
       .catch(err => console.log(err));
-    // Product.findByPk(productId, product => {
-    //   res.send(product);
-    // });
   };
 
   postEditProduct = (req, res, next) => {
-    const updatedProduct = new Product(
-      req.body.id,
-      req.body.title,
-      req.body.imageUrl,
-      req.body.price,
-      req.body.description
-    );
-    updatedProduct.save();
-    res.redirect('/admin/products');
+    Product.findByPk(req.body.id)
+      .then(product => {
+        (product.title = req.body.title),
+          (product.price = req.body.price),
+          (product.description = req.body.description),
+          (product.imageUrl = req.body.imageUrl);
+        return product.save();
+      })
+      .then(result => {
+        res.send(result);
+      })
+      .catch(err => console.log(err));
   };
 }
 
