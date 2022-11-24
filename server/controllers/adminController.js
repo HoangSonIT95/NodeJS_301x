@@ -28,9 +28,14 @@ class AdminController {
 
   getEditProduct = (req, res, next) => {
     const productId = req.params.productId;
-    Product.findById(productId, product => {
-      res.send(product);
-    });
+    Product.findAll({ where: { id: productId } })
+      .then(products => {
+        res.send(products[0]);
+      })
+      .catch(err => console.log(err));
+    // Product.findByPk(productId, product => {
+    //   res.send(product);
+    // });
   };
 
   postEditProduct = (req, res, next) => {
