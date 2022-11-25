@@ -15,7 +15,7 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 sequelize
-  .sync()
+  .sync({ force: true })
   .then(result => {
     console.log(result);
   })
