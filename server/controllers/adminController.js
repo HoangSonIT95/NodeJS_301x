@@ -45,9 +45,8 @@ class AdminController {
     const updatedPrice = req.body.price;
     const updatedImageUrl = req.body.imageUrl;
     const updatedDesc = req.body.description;
-    Product.findByPk(prodId)
+    Product.findById(prodId)
       .then(product => {
-        console.log(product);
         product.title = updatedTitle;
         product.price = updatedPrice;
         product.imageUrl = updatedImageUrl;
