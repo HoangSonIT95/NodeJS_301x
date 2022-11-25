@@ -29,18 +29,18 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Product);
-User.hasOne(Cart);
-Cart.belongsTo(User);
-Cart.belongsToMany(Product, { through: CartItem });
-Product.belongsToMany(Cart, { through: CartItem });
-Order.belongsTo(User);
-User.hasMany(Order);
-Order.belongsToMany(Product, { through: OrderItem });
+Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' }); // 1 product chỉ có 1 user, thêm PK vào Product
+User.hasMany(Product); // 1 user  có nhiều product
+User.hasOne(Cart); // 1 user có 1 cart, thêm PK vào bảng Cart
+Cart.belongsTo(User); // 1 cart có 1 user, thêm PK vào bảng Cart
+Cart.belongsToMany(Product, { through: CartItem }); // 1 cart có nhiều product, liên kết với nhau tại bảng CartItem
+Product.belongsToMany(Cart, { through: CartItem }); // 1 product có thể ở nhiều cart, liên kết với nhau tại bảng CartItem
+Order.belongsTo(User); // 1 order chỉ có 1 user
+User.hasMany(Order); // 1 user có thể có nhiều order
+Order.belongsToMany(Product, { through: OrderItem }); // 1 order có thể có nhiều product và 1 product có thể nằm trong nhiều order, liên kết với nhau tại bảng OrderItem
 
 sequelize
-  .sync()
+  .sync({ force: true })
   .then(result => {
     return User.findByPk(1);
   })
